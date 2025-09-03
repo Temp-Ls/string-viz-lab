@@ -367,7 +367,8 @@ export default function StringMatcher() {
     // Collect all matches from all patterns
     const allMatches = [];
     Object.values(allResults).forEach((result, patternIndex) => {
-      if (result.matches) {
+      // Only process if matches is an array (not a number from benchmark)
+      if (result.matches && Array.isArray(result.matches) && result.pattern) {
         result.matches.forEach(match => {
           allMatches.push({
             start: match,
