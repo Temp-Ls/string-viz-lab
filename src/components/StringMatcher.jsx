@@ -333,16 +333,21 @@ export default function StringMatcher() {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {Object.entries(results).map(([alg, result]) => (
-                      <div key={alg} className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${algorithms[alg].color}`} />
-                          <span className="font-medium">{algorithms[alg].name}</span>
-                          <Badge variant="outline">{result.matches.length} matches</Badge>
-                          <Badge variant="secondary">{result.time.toFixed(2)}ms</Badge>
+                    {Object.entries(results).map(([alg, result]) => {
+                      const algorithm = algorithms[alg];
+                      if (!algorithm) return null;
+                      
+                      return (
+                        <div key={alg} className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <div className={`w-3 h-3 rounded-full ${algorithm.color}`} />
+                            <span className="font-medium">{algorithm.name}</span>
+                            <Badge variant="outline">{result.matches.length} matches</Badge>
+                            <Badge variant="secondary">{result.time.toFixed(2)}ms</Badge>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>
@@ -367,22 +372,27 @@ export default function StringMatcher() {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {Object.entries(results).map(([alg, result]) => (
-                      <div key={alg} className="space-y-2">
-                        <div className="flex justify-between items-center">
-                          <span>{algorithms[alg].name}</span>
-                          <span className="font-mono">{result.time.toFixed(2)}ms</span>
+                    {Object.entries(results).map(([alg, result]) => {
+                      const algorithm = algorithms[alg];
+                      if (!algorithm) return null;
+                      
+                      return (
+                        <div key={alg} className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span>{algorithm.name}</span>
+                            <span className="font-mono">{result.time.toFixed(2)}ms</span>
+                          </div>
+                          <div className="w-full bg-secondary rounded-full h-2">
+                            <div 
+                              className={`${algorithm.color} h-2 rounded-full transition-smooth`}
+                              style={{ 
+                                width: `${(result.time / Math.max(...Object.values(results).map(r => r.time))) * 100}%` 
+                              }}
+                            />
+                          </div>
                         </div>
-                        <div className="w-full bg-secondary rounded-full h-2">
-                          <div 
-                            className={`${algorithms[alg].color} h-2 rounded-full transition-smooth`}
-                            style={{ 
-                              width: `${(result.time / Math.max(...Object.values(results).map(r => r.time))) * 100}%` 
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </CardContent>
